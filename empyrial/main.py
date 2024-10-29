@@ -1,3 +1,4 @@
+#NewVersion2024
 import numpy as np
 import pandas as pd
 import datetime as dt
@@ -229,7 +230,7 @@ def empyrial(my_portfolio, rf=0.0, sigma_value=1, confidence_value=0.95, report=
             )
 
             # then append those returns
-            returns = returns.append(add_returns)
+            returns = returns._append(add_returns)
     else:
       if not my_portfolio.data.empty:
               returns = get_returns_from_data(my_portfolio.data, my_portfolio.weights, my_portfolio.portfolio)
@@ -511,7 +512,6 @@ def empyrial(my_portfolio, rf=0.0, sigma_value=1, confidence_value=0.95, report=
       qs.plots.drawdowns_periods(returns)
       qs.plots.rolling_volatility(returns)
       qs.plots.rolling_sharpe(returns)
-      qs.plots.rolling_beta(returns, benchmark)
       graph_opt(my_portfolio.portfolio, wts, pie_size=7, font_size=14)
 
     else:
@@ -522,7 +522,6 @@ def empyrial(my_portfolio, rf=0.0, sigma_value=1, confidence_value=0.95, report=
       qs.plots.drawdowns_periods(returns, savefig="d_periods.png")
       qs.plots.rolling_volatility(returns, savefig="rvol.png")
       qs.plots.rolling_sharpe(returns, savefig="rsharpe.png")
-      qs.plots.rolling_beta(returns, benchmark, savefig="rbeta.png")
       graph_opt(my_portfolio.portfolio, wts, pie_size=7, font_size=14, save=True)
       pdf = FPDF()
       pdf.add_page()
@@ -578,7 +577,7 @@ def empyrial(my_portfolio, rf=0.0, sigma_value=1, confidence_value=0.95, report=
       pdf.cell(20, 7, f"", ln=1)
       pdf.image("rsharpe.png", x=None, y=None, w=190, h=80, type="", link="")
       pdf.cell(20, 7, f"", ln=1)
-      pdf.image("rbeta.png", x=None, y=None, w=190, h=80, type="", link="")
+      #pdf.image("rbeta.png", x=None, y=None, w=190, h=80, type="", link="")
 
       pdf.output(dest="F", name=filename)
       print("The PDF was generated successfully!")
