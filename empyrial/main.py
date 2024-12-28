@@ -1,4 +1,4 @@
-#NewVersion2024
+#NewVersion12-2024
 import numpy as np
 import pandas as pd
 import datetime as dt
@@ -144,7 +144,7 @@ class Engine:
 
 def get_returns(stocks, wts, start_date, end_date=TODAY):
     if len(stocks) > 1:
-        assets = yf.download(stocks, start=start_date, end=end_date, progress=False)["Adj Close"]
+        assets = yf.download(stocks, start=start_date, end=end_date,auto_adjust=False, actions=False)["Adj Close"]
         assets = assets.filter(stocks)
         initial_alloc = wts/assets.iloc[0]
         if initial_alloc.isna().any():
@@ -153,7 +153,7 @@ def get_returns(stocks, wts, start_date, end_date=TODAY):
         returns = portfolio_value.pct_change()[1:]
         return returns
     else:
-        df = yf.download(stocks, start=start_date, end=end_date, progress=False)["Adj Close"]
+        df = yf.download(stocks, start=start_date, end=end_date,auto_adjust=False, actions=False, progress=False)["Adj Close"]
         df = pd.DataFrame(df)
         returns = df.pct_change()[1:]
         return returns
@@ -613,7 +613,7 @@ def efficient_frontier(my_portfolio, perf=True) -> list:
         my_portfolio.portfolio,
         start=my_portfolio.start_date,
         end=my_portfolio.end_date,
-        progress=False,
+        progress=False,auto_adjust=False, actions=False
     )
     prices = ohlc["Adj Close"].dropna(how="all")
     df = prices.filter(my_portfolio.portfolio)
@@ -732,7 +732,7 @@ def min_var(my_portfolio, perf=True) -> list:
         my_portfolio.portfolio,
         start=my_portfolio.start_date,
         end=my_portfolio.end_date,
-        progress=False,
+        progress=False,auto_adjust=False, actions=False,
     )
     prices = ohlc["Adj Close"].dropna(how="all")
     prices = prices.filter(my_portfolio.portfolio)
