@@ -1,4 +1,4 @@
-#NewVersion12-2024
+#NewVersion_20-12-2024
 import numpy as np
 import pandas as pd
 import datetime as dt
@@ -656,7 +656,7 @@ def hrp(my_portfolio, perf=True) -> list:
         my_portfolio.portfolio,
         start=my_portfolio.start_date,
         end=my_portfolio.end_date,
-        progress=False,
+        progress=False,auto_adjust=False, actions=False,
     )
     prices = ohlc["Adj Close"].dropna(how="all")
     prices = prices.filter(my_portfolio.portfolio)
@@ -689,7 +689,7 @@ def mean_var(my_portfolio, vol_max=0.15, perf=True) -> list:
         my_portfolio.portfolio,
         start=my_portfolio.start_date,
         end=my_portfolio.end_date,
-        progress=False,
+        progress=False,auto_adjust=False, actions=False,
     )
     prices = ohlc["Adj Close"].dropna(how="all")
     prices = prices.filter(my_portfolio.portfolio)
