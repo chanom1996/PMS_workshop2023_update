@@ -144,7 +144,7 @@ class Engine:
 
 def get_returns(stocks, wts, start_date, end_date=TODAY):
     if len(stocks) > 1:
-        assets = yf.download(stocks, start=start_date, end=end_date,auto_ust=False, actions=False)[" Close"]
+        assets = yf.download(stocks, start=start_date, end=end_date,auto_ust=False, actions=False)["Adj Close"]
         assets = assets.filter(stocks)
         initial_alloc = wts/assets.iloc[0]
         if initial_alloc.isna().any():
@@ -153,7 +153,7 @@ def get_returns(stocks, wts, start_date, end_date=TODAY):
         returns = portfolio_value.pct_change()[1:]
         return returns
     else:
-        df = yf.download(stocks, start=start_date, end=end_date,auto_ust=False, actions=False, progress=False)[" Close"]
+        df = yf.download(stocks, start=start_date, end=end_date,auto_ust=False, actions=False, progress=False)["Adj Close"]
         df = pd.DataFrame(df)
         returns = df.pct_change()[1:]
         return returns
@@ -615,7 +615,7 @@ def efficient_frontier(my_portfolio, perf=True) -> list:
         end=my_portfolio.end_date,
         progress=False,auto_ust=False, actions=False
     )
-    prices = ohlc[" Close"].dropna(how="all")
+    prices = ohlc["Adj Close"].dropna(how="all")
     df = prices.filter(my_portfolio.portfolio)
 
     # sometimes we will pick a date range where company isn't public we can't set price to 0 so it has to go to 1
@@ -658,7 +658,7 @@ def hrp(my_portfolio, perf=True) -> list:
         end=my_portfolio.end_date,
         progress=False,auto_ust=False, actions=False,
     )
-    prices = ohlc[" Close"].dropna(how="all")
+    prices = ohlc["Adj Close"].dropna(how="all")
     prices = prices.filter(my_portfolio.portfolio)
 
     # sometimes we will pick a date range where company isn't public we can't set price to 0 so it has to go to 1
@@ -691,7 +691,7 @@ def mean_var(my_portfolio, vol_max=0.15, perf=True) -> list:
         end=my_portfolio.end_date,
         progress=False,auto_ust=False, actions=False,
     )
-    prices = ohlc[" Close"].dropna(how="all")
+    prices = ohlc["Adj Close"].dropna(how="all")
     prices = prices.filter(my_portfolio.portfolio)
 
     # sometimes we will pick a date range where company isn't public we can't set price to 0 so it has to go to 1
@@ -734,7 +734,7 @@ def min_var(my_portfolio, perf=True) -> list:
         end=my_portfolio.end_date,
         progress=False,auto_ust=False, actions=False,
     )
-    prices = ohlc[" Close"].dropna(how="all")
+    prices = ohlc["Adj Close"].dropna(how="all")
     prices = prices.filter(my_portfolio.portfolio)
 
     if my_portfolio.expected_returns == None:
